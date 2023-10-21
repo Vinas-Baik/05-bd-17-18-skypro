@@ -19,8 +19,9 @@ def create_database(database_name: str, params: dict):
     conn = psycopg2.connect(dbname='postgres', **params)
     conn.autocommit = True
     cur = conn.cursor()
-
+    # удаление базы если она есть
     cur.execute(f"DROP DATABASE IF EXISTS {database_name}")
+
     cur.execute(f"CREATE DATABASE {database_name}")
 
     conn.close()
