@@ -8,11 +8,12 @@ def get_youtube_data(api_key: str, channel_ids: list[str]) -> list[dict[str, Any
 
     youtube = build('youtube', 'v3', developerKey=api_key)
 
+    data = []
     for channel_id in channel_ids:
-        data = []
         channel_data = youtube.channels().list(part='snippet, statistics', id=channel_id).execute()
 
         videos_data = []
+        next_page_token = None
         while True:
             response = youtube.search().list(part='id,snippet', channelId=channel_id, type='video',
                                              order='date', maxResults=50, pageToken=next_page_token).execute()
